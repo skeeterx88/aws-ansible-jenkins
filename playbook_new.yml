@@ -1,0 +1,20 @@
+---
+- name: Instalando pacotes na nova instância
+  hosts: aws
+  become: true
+  tasks:
+    - name: Instalando tomcat
+      yum:
+        name: tomcat
+        state: present
+
+    - name: Iniciando o serviço tomcat
+      service:
+        name: tomcat
+        state: started
+        enabled: yes
+
+    - name: Copiando o pacote para o servidor
+      copy:
+        src: target/MavenHelloWorldProject-1.0-SNAPSHOT.jar
+        dest: /usr/share/tomcat/webapps
